@@ -1,0 +1,13 @@
+1. Create a github repos and setup locally.
+3. Activate the your vitrual env using {cmd: $ source venv/bin/activate}
+4. Create a template.py file for project file setup.
+5. Run template.py file to create project structure.
+6. Now to test and installing dependencies make testEnvironment.py. Which test our venv and install dependencies from requirements.txt file
+
+
+
+-> Setup ZenMl
+1. To instal ZenMl {cmd: $ pip install zenml zenml[server]==0.82.0}  
+(These are also added in the requirements.txt. If you already installed dependencies no need to install seprately)
+2. Run {cmd: $ zenml login --local}.
+3. Run {cmd: $ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES zenml up}. For exposing UI on the browser.
