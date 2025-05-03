@@ -15,13 +15,13 @@ class IngestData:
 
     def __init__(self):
         """Initialize the data ingestion class."""
+        Config.validate()
         logging.info("Data Ingestion class initialized.")
 
     @step
     def download_file(self):
         """ Fetch data from the URL """
         try:
-            Config.validate()
             dataset_url = Config.DATA_URL
             zip_download_dir = Config.DATA_FILE
             os.makedirs("artifacts/data_ingestion", exist_ok=True)
@@ -35,13 +35,14 @@ class IngestData:
         except Exception as e:
             logging.error("Error occurred while downloading file", exc_info=True)
             raise MyException(e, sys)
-
+        
+    @step
     def extract_zip_file(self):
         """
         Extracts the zip file into the data directory
         """
         try:
-            unzip_path = self.config.unzip_dir
+            unzip_path = Config.UNZIP_DIR
             os.makedirs(unzip_path, exist_ok=True)
             logging.info(f"Extracting zip file {self.config.local_data_file} to {unzip_path}")
             
