@@ -3,7 +3,7 @@ import sys
 import zipfile
 
 import gdown
-
+from zenml import step
 from src.logger import logging
 from src.exception import MyException
 from config import Config
@@ -17,6 +17,7 @@ class IngestData:
         """Initialize the data ingestion class."""
         logging.info("Data Ingestion class initialized.")
 
+    @step
     def download_file(self):
         """ Fetch data from the URL """
         try:
