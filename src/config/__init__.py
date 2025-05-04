@@ -1,17 +1,9 @@
-import os
-from dotenv import load_dotenv
+from box import Box
+import yaml
+from pathlib import Path
 
-# Load environment variables from .env file
-load_dotenv()
+def load_config(path: Path = Path("config.yaml")):
+    with open(path, "r") as f:
+        return Box(yaml.safe_load(f))  # Allows dot-access
 
-class Config:
-    """Configuration class for the application."""
-    DATA_URL = os.getenv("DATA_URL")
-    DATA_FILE = os.getenv("DATA_FILE")
-    LOG_DIR = "logs"
-
-    @staticmethod
-    def validate():
-        """Validate that required environment variables are set."""
-        if not Config.GROQ_API_KEY:
-            raise ValueError("GROQ_API_KEY is not set in the .env file")
+CONFIG = load_config()
