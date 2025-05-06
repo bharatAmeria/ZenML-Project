@@ -7,3 +7,4 @@ data:
 data_path: "artifacts/yield_df.csv"
 processed_data_path: "artifacts/processed_data.csv"
 model: "model/model.pkl"
+processor: "model/processor.pkl"

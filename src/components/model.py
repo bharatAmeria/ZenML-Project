@@ -76,7 +76,10 @@ class ModelTrainingConfig(ModelTrainingStrategy):
             dtr.predict(X_test_dummy)
 
             model_path = CONFIG["model"]
+            processer = CONFIG["processor"]
             os.makedirs(os.path.dirname(model_path), exist_ok=True)
+            os.makedirs(os.path.dirname(processer), exist_ok=True)
+            joblib.dump(dtr,open(processer,'wb'))
             joblib.dump(preprocesser,open(model_path,'wb'))
 
         except Exception as e:
