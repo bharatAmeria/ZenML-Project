@@ -46,7 +46,7 @@ def train_model(processed_df: pd.DataFrame) -> Any:
         raise e
 
 
-@pipeline
+@pipeline(enable_cache=False)
 def training_pipeline():
     data_path = ingest_data()
     processed_df = preprocess_data(data_path)

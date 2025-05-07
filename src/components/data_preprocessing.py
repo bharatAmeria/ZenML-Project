@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from typing import Union
 from src.config import CONFIG
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+
 from src.logger import logging
 from src.exception import MyException
 

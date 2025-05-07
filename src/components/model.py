@@ -2,8 +2,6 @@ import os
 import sys
 import joblib
 import pandas as pd
-import numpy as np
-from zenml.steps import step
 from src.logger import logging
 from src.exception import MyException
 from abc import ABC, abstractmethod

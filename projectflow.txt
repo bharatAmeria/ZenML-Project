@@ -3,34 +3,11 @@
 4. Create a template.py file for project file setup.
 5. Run template.py file to create project structure.
 6. Now to test and installing dependencies make testEnvironment.py. Which test our venv and install dependencies from requirements.txt file.
-7.
-8.
-9.
-10.
-
--> Data Ingestion 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
-
--> Data Preprocessing
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
+7. Create a config.yaml file for the artifacts file path.
+8. In the components/data_ingestion.py has code for data_ingestion(data downloaded from google drive).
+9. In config folder has logic which reads path from config.yaml file for the file path.
+10. Similarly components/data_processing.py file has data_preprocessing logic and save the data for model_training.
+11. Now components/model.py has model_training logic in which column transformer technique is used. and teh best performing model is saved.
 
 -> Setup ZenMl
 1. To instal ZenMl {cmd: $ pip install zenml zenml[server]==0.82.0} . 
@@ -38,3 +15,6 @@
 2. Run {cmd: $ zenml login --local}.
 3. Run {cmd: $ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES zenml up}. For exposing UI on the browser.
 4. Sign up your ZenMl dashboard.
+5. Zenml gives flexibility to run function step by step. By using decorator like @step and to make pipeline of these functions serially we use @pipeline.
+6. For eg in the data_ingestion.py file first function for download file and extract file and these are called using decorator @step.
+7. zenml gives flexibility to set custom output names using Anotated { divide(a: int, b: int) -> Tuple[Annotated[int, "quotient"], Annotated[int, "remainder"]] }
