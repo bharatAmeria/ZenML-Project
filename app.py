@@ -1,4 +1,5 @@
 import sys
+from typing import Any
 import pandas as pd
 from zenml import pipeline, step
 from src.constants import *
@@ -10,23 +11,21 @@ from src.components.model import ModelTrainingConfig, ModelTraining
 from src.config import CONFIG
 
 @step
-def ingest_data():
+def ingest_data() -> str:
     try:
         logging.info(f">>>>>> stage {INGESTION_STAGE_NAME} started <<<<<<")
         zip_path = download_file_step()
         extract_zip_step(zip_path)
         logging.info(f">>>>>> stage {INGESTION_STAGE_NAME} completed <<<<<<\n\nx==========x")
+        return CONFIG["data_path"]
     except Exception as e:
         logging.exception(f"Error during ingestion: {e}")
         raise MyException(e, sys)
 
 @step
-def preprocess_data():
-    """
-    ZenML step that preprocesses the raw data using the strategy pattern.
-    """
+def preprocess_data(data_path: str) -> pd.DataFrame:
     try:
-        raw_data = pd.read_csv(CONFIG["data_path"])
+        raw_data = pd.read_csv(data_path)
         strategy = DataPreprocessStrategy()
         processor = DataPreProcessing(data=raw_data, strategy=strategy)
         processed_df = processor.handle_data()
@@ -34,26 +33,24 @@ def preprocess_data():
     except Exception as e:
         raise MyException(e, sys)
 
-
 @step
-def train_model():
+def train_model(processed_df: pd.DataFrame) -> Any:
     try:
-        df = pd.read_csv(CONFIG["processed_data_path"])
         logging.info(">>>>>Model Training Started...<<<<<")
-        model_training_strategy = ModelTraining(data=df, strategy=ModelTrainingConfig())
-        train = model_training_strategy.handle_training()
+        model_training_strategy = ModelTraining(data=processed_df, strategy=ModelTrainingConfig())
+        trained_model = model_training_strategy.handle_training()
         logging.info(">>>>>Model Training Completed<<<<<\n")
-        return train
+        return trained_model
     except MyException as e:
         logging.exception(e, sys)
         raise e
-    
+
 
 @pipeline
 def training_pipeline():
-    ingest_data()
-    preprocess_data()
-    train_model()
+    data_path = ingest_data()
+    processed_df = preprocess_data(data_path)
+    train_model(processed_df)
 
 
 # ------------------------
